@@ -132,8 +132,25 @@ function isTriangle(a, b, c) {
  *   { top:20, left:20, width: 20, height: 20 }    =>  false
  *
  */
-function doRectanglesOverlap(/* rect1, rect2 */) {
-  throw new Error('Not implemented');
+function doRectanglesOverlap(rect1, rect2) {
+  const {
+    left: left1,
+    top: top1,
+    width: width1,
+    height: height1,
+  } = rect1;
+  const {
+    left: left2,
+    top: top2,
+    width: width2,
+    height: height2,
+  } = rect2;
+  return !(
+    left1 + width1 <= left2
+    || left2 + width2 <= left1
+    || top1 + height1 <= top2
+    || top2 + height2 <= top1
+  );
 }
 
 
@@ -163,8 +180,22 @@ function doRectanglesOverlap(/* rect1, rect2 */) {
  *   { center: { x:0, y:0 }, radius:10 },  { x:10, y:10 }   => false
  *
  */
-function isInsideCircle(/* circle, point */) {
-  throw new Error('Not implemented');
+function isInsideCircle(circle, point) {
+  const {
+    center:
+    {
+      x: centerX,
+      y: centerY,
+    },
+    radius,
+  } = circle;
+  const {
+    x,
+    y,
+  } = point;
+  const dis = (x - centerX) ** 2 + (y - centerY) ** 2;
+  const rad = radius ** 2;
+  return dis < rad;
 }
 
 
@@ -179,8 +210,16 @@ function isInsideCircle(/* circle, point */) {
  *   'abracadabra'  => 'c'
  *   'entente' => null
  */
-function findFirstSingleChar(/* str */) {
-  throw new Error('Not implemented');
+function findFirstSingleChar(str) {
+  const count = {};
+  Array.from(str).forEach((el) => {
+    if (count[el]) {
+      count[el] += 1;
+    } else {
+      count[el] = 1;
+    }
+  });
+  return Array.from(str).find((el) => count[el] === 1) || null;
 }
 
 
