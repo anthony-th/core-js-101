@@ -431,8 +431,13 @@ function toNaryString(num, n) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/verbalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
+function getCommonDirectoryPath(pathes) {
+  const newPathes = pathes.map((path) => path.split('/'));
+  const lengthPathes = Math.min(...newPathes.map((el) => el.length));
+  const resultPath = newPathes[0]
+    .slice(0, lengthPathes)
+    .filter((corrEl, i) => newPathes.every((el) => el[i] === corrEl));
+  return resultPath.length > 0 ? `${resultPath.join('/')}/` : '';
 }
 
 
@@ -454,8 +459,22 @@ function getCommonDirectoryPath(/* pathes */) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+function getMatrixProduct(m1, m2) {
+  const result = [];
+  const rows = m1.length;
+  const cols = m2[0].length;
+  const all = m2.length;
+  for (let i = 0; i < rows; i += 1) {
+    result[i] = [];
+    for (let j = 0; j < cols; j += 1) {
+      let sum = 0;
+      for (let k = 0; k < all; k += 1) {
+        sum += m1[i][k] * m2[k][j];
+      }
+      result[i][j] = sum;
+    }
+  }
+  return result;
 }
 
 
@@ -489,8 +508,27 @@ function getMatrixProduct(/* m1, m2 */) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
+function evaluateTicTacToePosition(position) {
+  const combinations = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
+  const winComb = combinations.find(([x, y, z]) => {
+    const xPos = position[Math.floor(x / 3)][x % 3];
+    const yPos = position[Math.floor(y / 3)][y % 3];
+    const zPos = position[Math.floor(z / 3)][z % 3];
+    return xPos && xPos === yPos && yPos === zPos;
+  });
+  if (winComb) {
+    return position[Math.floor(winComb[0] / 3)][winComb[0] % 3];
+  }
+  return undefined;
 }
 
 
